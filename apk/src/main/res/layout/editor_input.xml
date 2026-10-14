@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Chooloo.Input"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/default_spacing_small">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editor_input_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
+        android:textAppearance="@style/Chooloo.Text.Title.Small" />
+</com.google.android.material.textfield.TextInputLayout>

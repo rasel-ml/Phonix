@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- top bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_spacing"
+        android:layout_marginTop="@dimen/default_spacing_small"
+        android:layout_marginEnd="@dimen/default_spacing"
+        android:layout_marginBottom="@dimen/default_spacing_small"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <app.mrm.phonix.lib.ui.widgets.IconButton
+            android:id="@+id/editor_close"
+            style="@style/Chooloo.Button.Secondary.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/editor_close"
+            app:icon="@drawable/close" />
+
+        <TextView
+            android:id="@+id/editor_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_spacing_medium"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:textAppearance="@style/Chooloo.Text.Headline"
+            android:textSize="@dimen/headline_4"
+            tools:text="New contact" />
+
+        <app.mrm.phonix.lib.ui.widgets.IconButton
+            android:id="@+id/editor_delete"
+            style="@style/Chooloo.Button.Secondary.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_spacing_small"
+            android:contentDescription="@string/editor_delete"
+            android:visibility="gone"
+            app:icon="@drawable/delete" />
+
+        <app.mrm.phonix.lib.ui.widgets.IconButton
+            android:id="@+id/editor_star"
+            style="@style/Chooloo.Button.Secondary.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_spacing_small"
+            android:contentDescription="@string/editor_star"
+            app:checkedIcon="@drawable/star"
+            app:icon="@drawable/star_border" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/editor_save"
+            style="@style/Chooloo.Button.Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/editor_save" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:paddingBottom="@dimen/default_spacing_big">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/default_spacing"
+            android:paddingEnd="@dimen/default_spacing">
+
+            <!-- photo -->
+            <FrameLayout
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/default_spacing_small">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/editor_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?colorSurfaceVariant"
+                    android:contentDescription="@string/editor_photo"
+                    android:padding="32dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/person"
+                    app:shapeAppearanceOverlay="@style/Chooloo.Image.Profile"
+                    app:tint="?colorOnSurfaceVariant" />
+
+                <app.mrm.phonix.lib.ui.widgets.IconButton
+                    android:id="@+id/editor_photo_edit"
+                    style="@style/Chooloo.Button.Secondary.Icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:contentDescription="@string/editor_choose_photo"
+                    android:padding="7dp"
+                    app:icon="@drawable/photo_camera" />
+            </FrameLayout>
+
+            <!-- account (new contacts only) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editor_account"
+                style="@style/Chooloo.Button.Add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/default_spacing_small"
+                android:visibility="gone"
+                tools:text="Save to Device"
+                tools:visibility="visible" />
+
+            <!-- name -->
+            <LinearLayout
+                android:id="@+id/editor_name_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_spacing"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/editor_name_more_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editor_name_more_toggle"
+                style="@style/Chooloo.Button.Add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/editor_more_name_fields" />
+
+            <!-- sections are added here -->
+            <LinearLayout
+                android:id="@+id/editor_sections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <!-- add more fields -->
+            <TextView
+                android:id="@+id/editor_more_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_spacing_big"
+                android:layout_marginBottom="@dimen/default_spacing_small_plus"
+                android:text="@string/editor_more_fields"
+                android:textAppearance="@style/Chooloo.Text.Title" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/editor_more_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/default_spacing_small_plus"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/editor_row_fields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editor_row_type"
+                style="@style/Chooloo.Button.Type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/editor_row_extra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_spacing_small"
+                android:text="@string/editor_without_year"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <app.mrm.phonix.lib.ui.widgets.IconButton
+        android:id="@+id/editor_row_remove"
+        style="@style/Chooloo.Button.Secondary.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_spacing_small_plus"
+        android:layout_marginTop="@dimen/default_spacing_small_plus"
+        android:contentDescription="@string/editor_remove"
+        app:icon="@drawable/close" />
+</LinearLayout>

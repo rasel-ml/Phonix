@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/default_spacing_small"
+    android:layout_marginBottom="@dimen/default_spacing_small"
+    android:background="@drawable/bubble_background"
+    android:backgroundTint="?colorSurfaceVariant"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="@dimen/default_spacing"
+    android:textAppearance="@style/Chooloo.Text.Title"
+    android:textColor="?colorOnSurfaceVariant" />
