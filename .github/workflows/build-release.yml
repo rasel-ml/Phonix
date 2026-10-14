@@ -35,5 +35,5 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: Phonix-release
-          path: app/build/outputs/apk/release/*.apk
+          path: apk/build/outputs/apk/release/*.apk
           retention-days: 30
