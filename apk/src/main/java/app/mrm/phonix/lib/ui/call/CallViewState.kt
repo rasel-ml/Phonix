@@ -63,6 +63,7 @@ class CallViewState @Inject constructor(
     CallActions.CallActionsListener {
 
     private val _name = MutableLiveData<String?>()
+    private val _number = MutableLiveData<String?>()
     private val _imageRes = MutableLiveData<Int>()
     private val _uiState = MutableLiveData<UIState>(UIState.ACTIVE)
     private val _imageURI = MutableLiveData<Uri?>(null)
@@ -91,6 +92,7 @@ class CallViewState @Inject constructor(
 
 
     val name = _name as LiveData<String?>
+    val number = _number as LiveData<String?>
     val imageRes = _imageRes as LiveData<Int>
     val uiState = _uiState as LiveData<UIState>
     val imageURI = _imageURI as LiveData<Uri?>
@@ -247,11 +249,14 @@ class CallViewState @Inject constructor(
 
         if (call.isConference) {
             _name.value = strings.getString(R.string.conference)
+            _number.value = null
         } else {
             viewModelScope.launch {
                 val account = phones.lookupAccount(call.number)
                 account?.photoUri?.let { _imageURI.value = Uri.parse(it) }
                 _name.value = account?.displayString ?: call.number
+                // the number goes under the name; when there is no name the number is the name
+                _number.value = if (account?.name != null) call.number else null
             }
         }
 

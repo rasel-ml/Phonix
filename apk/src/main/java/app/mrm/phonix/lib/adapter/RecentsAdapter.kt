@@ -13,6 +13,7 @@ import app.mrm.phonix.lib.interactor.animation.AnimationsInteractor
 import app.mrm.phonix.lib.interactor.drawable.DrawablesInteractor
 import app.mrm.phonix.lib.interactor.phoneaccounts.PhonesInteractor
 import app.mrm.phonix.lib.interactor.recents.RecentsInteractor
+import app.mrm.phonix.lib.interactor.sim.CallSimResolver
 import app.mrm.phonix.lib.ui.widgets.listitemholder.ListItemHolder
 import app.mrm.phonix.lib.util.getHoursString
 import app.mrm.phonix.lib.util.initials
@@ -26,6 +27,7 @@ class RecentsAdapter @Inject constructor(
     private val phones: PhonesInteractor,
     private val recents: RecentsInteractor,
     private val drawables: DrawablesInteractor,
+    private val simResolver: CallSimResolver,
     @IoScope private val ioScope: CoroutineScope,
     @MainScope private val mainScope: CoroutineScope,
     @ApplicationContext private val context: Context
@@ -64,12 +66,16 @@ class RecentsAdapter @Inject constructor(
             // Rows are recycled; remember which item this holder is bound to so a slow
             // lookup for a previous item can't overwrite the current one.
             itemView.tag = item
+            hideSim()
 
             ioScope.launch {
                 val account = phones.lookupAccount(item.number)
+                val sim = simResolver.resolve(item.phoneAccountComponent, item.phoneAccountId)
 
                 mainScope.launch {
                     if (itemView.tag !== item) return@launch
+
+                    if (sim == null) hideSim() else showSim(sim.slotNumber, sim.color, sim.isAvailable)
 
                     val name = account?.name?.takeIf { it.isNotBlank() }
                     titleText = name ?: fallbackTitle

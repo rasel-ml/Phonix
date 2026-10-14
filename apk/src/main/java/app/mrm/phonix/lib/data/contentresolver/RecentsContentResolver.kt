@@ -29,7 +29,9 @@ class RecentsContentResolver(
         CallLog.Calls.DATE,
         CallLog.Calls.DURATION,
         CallLog.Calls.CACHED_NAME,
-        CallLog.Calls.TYPE
+        CallLog.Calls.TYPE,
+        CallLog.Calls.PHONE_ACCOUNT_ID,
+        CallLog.Calls.PHONE_ACCOUNT_COMPONENT_NAME
     )
 
     override val selection: String
@@ -48,7 +50,11 @@ class RecentsContentResolver(
             date = Date(cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE))),
             number = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER)) ?: "",
             duration = cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DURATION)),
-            cachedName = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME))
+            cachedName = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME)),
+            phoneAccountId = cursor.getString(cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID)),
+            phoneAccountComponent = cursor.getString(
+                cursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_COMPONENT_NAME)
+            )
         )
     }
 }

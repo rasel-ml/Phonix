@@ -13,6 +13,8 @@ data class RecentAccount(
     @CallType val type: Int,
     val duration: Long = 0,
     val cachedName: String? = null,
+    val phoneAccountId: String? = null,
+    val phoneAccountComponent: String? = null,
     val groupAccounts: List<RecentAccount> = listOf()
 ) : Serializable {
 

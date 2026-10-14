@@ -2,7 +2,12 @@ package app.mrm.phonix.lib.ui.call
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.format.DateUtils
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.view.Gravity
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
@@ -16,6 +21,7 @@ import app.mrm.phonix.lib.interactor.screen.ScreensInteractor
 import app.mrm.phonix.lib.ui.base.BaseActivity
 import app.mrm.phonix.lib.ui.call.CallViewState.UIState
 import app.mrm.phonix.lib.ui.dialpad.DialpadViewState
+import app.mrm.phonix.lib.util.getAttrColor
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -34,6 +40,9 @@ class CallActivity : BaseActivity<CallViewState>() {
     @Inject lateinit var fragmentFactory: FragmentFactory
     @Inject lateinit var animations: AnimationsInteractor
 
+    private var callName: String? = null
+    private var callNumber: String? = null
+
 
     override fun onSetup() {
         screens.showWhenLocked()
@@ -43,7 +52,13 @@ class CallActivity : BaseActivity<CallViewState>() {
             stateTextColor.observe(this@CallActivity, binding.callStateText::setTextColor)
 
             name.observe(this@CallActivity) {
-                binding.callNameText.text = it
+                callName = it
+                renderCallerName()
+            }
+
+            number.observe(this@CallActivity) {
+                callNumber = it
+                renderCallerName()
             }
 
             imageURI.observe(this@CallActivity) {
@@ -207,6 +222,28 @@ class CallActivity : BaseActivity<CallViewState>() {
         }
 
         dialpadViewState.char.observe(this@CallActivity, viewState::onCharKey)
+    }
+
+    /** the caller's name, with their number in smaller text on the line below */
+    private fun renderCallerName() {
+        val name = callName.orEmpty()
+        val number = callNumber?.takeIf { it.isNotBlank() && it != name }
+
+        binding.callNameText.gravity = Gravity.CENTER_HORIZONTAL
+        binding.callNameText.text = if (number == null) {
+            name
+        } else {
+            SpannableStringBuilder(name).apply {
+                append('\n')
+                val start = length
+                append(number)
+                setSpan(RelativeSizeSpan(0.55f), start, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(
+                    ForegroundColorSpan(getAttrColor(R.attr.colorOnSurfaceVariant)),
+                    start, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
     }
 
     private fun showActiveLayout() {

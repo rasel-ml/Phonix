@@ -152,6 +152,30 @@ open class ListItemHolder(protected val binding: ListItemBinding) :
         showImageOrInitials = true
     }
 
+    fun hideSim() {
+        binding.listItemSim.isVisible = false
+    }
+
+    /**
+     * Shows a SIM icon before the caption.
+     * @param number the SIM slot number (1, 2…) drawn inside the icon, null for none
+     * @param color the SIM's colour; ignored (grey is used) when the SIM isn't available
+     */
+    fun showSim(number: Int?, @ColorInt color: Int?, isAvailable: Boolean) {
+        val grey = context.getAttrColor(R.attr.colorOutline)
+        val tint = if (isAvailable && color != null && color != 0) color else grey
+        // dark digits on light colours, light digits on dark ones
+        val digitColor = if (androidx.core.graphics.ColorUtils.calculateLuminance(tint) > 0.5)
+            Color.BLACK else Color.WHITE
+
+        binding.listItemSimIcon.imageTintList = ColorStateList.valueOf(tint)
+        binding.listItemSimNumber.apply {
+            text = if (isAvailable) number?.toString().orEmpty() else ""
+            setTextColor(digitColor)
+        }
+        binding.listItemSim.isVisible = true
+    }
+
     fun setCaptionImageRes(imageRes: Int) {
         binding.listItemCaptionImage.setImageResource(imageRes)
         binding.listItemCaptionImage.isVisible = true

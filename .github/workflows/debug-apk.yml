@@ -29,11 +29,6 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
 
-      # ubuntu-latest already has the Android SDK ($ANDROID_HOME); just accept licenses so
-      # Gradle can fetch platform 33 / build-tools if the image doesn't have them.
-      # - name: Accept Android SDK licenses
-        # run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
-
       - name: Make gradlew executable
         run: chmod +x gradlew
 
