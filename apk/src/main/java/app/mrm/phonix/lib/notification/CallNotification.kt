@@ -186,7 +186,7 @@ class CallNotification @Inject constructor(
             .setOnlyAlertOnce(true)
             .setCategory(CATEGORY_CALL)
             .setContentTitle(phoneAccount?.displayString ?: call.number)
-            .setSmallIcon(R.drawable.icon_full_144)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(_contentPendingIntent)
             .setColor(colors.getAttrColor(R.attr.colorSecondary))
             .setContentText(strings.getString(call.state.stringRes))

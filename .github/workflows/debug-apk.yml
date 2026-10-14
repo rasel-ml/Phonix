@@ -2,13 +2,14 @@ name: Build debug APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
+    paths:
+      - 'app/**'
   pull_request:
+    branches: [ main ]
+    paths:
+      - 'app/**'
   workflow_dispatch:
-
-concurrency:
-  group: debug-apk-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   build:
@@ -17,21 +18,21 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Set up Gradle (with caching)
-        uses: gradle/actions/setup-gradle@v3
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
 
       # ubuntu-latest already has the Android SDK ($ANDROID_HOME); just accept licenses so
       # Gradle can fetch platform 33 / build-tools if the image doesn't have them.
-      - name: Accept Android SDK licenses
-        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+      # - name: Accept Android SDK licenses
+        # run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
 
       - name: Make gradlew executable
         run: chmod +x gradlew
@@ -40,7 +41,7 @@ jobs:
         run: ./gradlew :apk:assembleDebug --stacktrace
 
       - name: Upload debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: phonix-debug-apk
           path: apk/build/outputs/apk/debug/*.apk
