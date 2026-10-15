@@ -50,5 +50,12 @@ class RecentsInteractorImpl @Inject constructor(
         else -> R.drawable.call_made
     }
 
+    override fun getCallTypeColorRes(@RecentAccount.CallType callType: Int): Int? = when (callType) {
+        RecentAccount.TYPE_INCOMING -> R.color.call_type_received
+        RecentAccount.TYPE_OUTGOING -> R.color.call_type_outgoing
+        RecentAccount.TYPE_MISSED -> R.color.call_type_missed
+        else -> null
+    }
+
     override fun getLastOutgoingCall(): String = CallLog.Calls.getLastOutgoingCall(context)
 }

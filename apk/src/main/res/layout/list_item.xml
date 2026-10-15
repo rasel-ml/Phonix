@@ -59,11 +59,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_spacing_medium"
                 android:textAppearance="@style/Chooloo.Text.Title"
-                app:layout_constraintBottom_toTopOf="@id/list_item_caption"
+                app:layout_constraintBottom_toTopOf="@id/list_item_subtitle"
                 app:layout_constraintStart_toEndOf="@id/list_item_image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Title" />
+
+            <TextView
+                android:id="@+id/list_item_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/Chooloo.Text.Caption"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/list_item_caption"
+                app:layout_constraintStart_toStartOf="@id/list_item_title"
+                app:layout_constraintTop_toBottomOf="@id/list_item_title"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="+1 555 0100"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/list_item_caption"
@@ -74,7 +88,7 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/list_item_sim"
-                app:layout_constraintTop_toBottomOf="@id/list_item_title"
+                app:layout_constraintTop_toBottomOf="@id/list_item_subtitle"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="caption caption"
                 tools:visibility="visible" />

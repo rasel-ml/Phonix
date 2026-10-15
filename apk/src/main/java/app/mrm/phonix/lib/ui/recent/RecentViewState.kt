@@ -25,6 +25,7 @@ class RecentViewState @Inject constructor(
     private val _imageUri = MutableLiveData<Uri>()
     private val _recentId = MutableLiveData(0L)
     private val _typeImage = MutableLiveData<Int>()
+    private val _typeColor = MutableLiveData<Int?>()
     private val _caption = MutableLiveData<String>()
     private val _isBlocked = MutableLiveData<Boolean>()
     private val _recentNumber = MutableLiveData<String>()
@@ -40,6 +41,7 @@ class RecentViewState @Inject constructor(
     val imageUri = _imageUri as LiveData<Uri>
     val recentId = _recentId as LiveData<Long>
     val typeImage = _typeImage as LiveData<Int>
+    val typeColor = _typeColor as LiveData<Int?>
     val isBlocked = _isBlocked as LiveData<Boolean>
     val recentNumber = _recentNumber as LiveData<String>
     val isContactVisible = _isContactVisible as LiveData<Boolean>
@@ -65,7 +67,10 @@ class RecentViewState @Inject constructor(
                 it?.number?.let { _recentNumber.value = it }
                 _name.value =
                     if (_recent?.cachedName?.isNotEmpty() == true) it?.cachedName else it?.number
-                it?.type?.let { _typeImage.value = recents.getCallTypeImage(it) }
+                it?.type?.let {
+                    _typeImage.value = recents.getCallTypeImage(it)
+                    _typeColor.value = recents.getCallTypeColorRes(it)
+                }
 
                 _caption.value = "${it?.relativeTime ?: ""} • ${
                     if ((it?.duration ?: -1) > 0L) "${

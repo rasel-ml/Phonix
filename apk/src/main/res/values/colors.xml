@@ -38,5 +38,9 @@
     <color name="background_variant">#E9F2F4</color>
     <color name="on_background_variant">#3f484a</color>
 
+    <color name="call_type_missed">#d93025</color>
+    <color name="call_type_received">#1e8e3e</color>
+    <color name="call_type_outgoing">#1a73e8</color>
+
     <color name="ic_launcher_background">#4B635C</color>
 </resources>

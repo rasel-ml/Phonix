@@ -1,6 +1,10 @@
 package app.mrm.phonix.lib.ui.recent
 
+import android.content.res.ColorStateList
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import app.mrm.phonix.R
+import app.mrm.phonix.lib.util.getAttrColor
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -11,6 +15,7 @@ import app.mrm.phonix.lib.interactor.telecom.TelecomInteractor
 import app.mrm.phonix.lib.ui.base.BaseFragment
 import app.mrm.phonix.lib.ui.recent.menu.RecentMenuViewState
 import app.mrm.phonix.lib.ui.recents.RecentsViewState
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,7 +35,7 @@ class RecentFragment @Inject constructor() : BaseFragment<RecentViewState>() {
 
 
     override fun onSetup() {
-        binding.recentContactImage.isVisible = false
+        showPlaceholderImage()
 
         binding.recentMainActions.apply {
             recentButtonSms.setOnClickListener { viewState.onSms() }
@@ -45,10 +50,23 @@ class RecentFragment @Inject constructor() : BaseFragment<RecentViewState>() {
             isBlocked.observe(this@RecentFragment, menuViewState::onIsBlocked)
             recentNumber.observe(this@RecentFragment, menuViewState::onRecentNumber)
             typeImage.observe(this@RecentFragment, binding.recentTypeImage::setImageResource)
+            typeColor.observe(this@RecentFragment) { res ->
+                binding.recentTypeImage.imageTintList = res?.let {
+                    ColorStateList.valueOf(ContextCompat.getColor(baseActivity, it))
+                } ?: ColorStateList.valueOf(baseActivity.getAttrColor(R.attr.colorPrimary))
+            }
 
             imageUri.observe(this@RecentFragment) {
-                binding.recentContactImage.isVisible = true
-                Picasso.with(baseActivity).load(it).into(binding.recentContactImage)
+                val image = binding.recentContactImage
+                Picasso.with(baseActivity).load(it).into(image, object : Callback {
+                    override fun onSuccess() {
+                        // the placeholder is tinted and padded; a real photo must not be
+                        image.imageTintList = null
+                        image.setPadding(0, 0, 0, 0)
+                    }
+
+                    override fun onError() {}
+                })
             }
 
             name.observe(this@RecentFragment) {
@@ -99,6 +117,14 @@ class RecentFragment @Inject constructor() : BaseFragment<RecentViewState>() {
 
             onRecentId(args.getLong(ARG_RECENT_ID))
         }
+    }
+
+    /** contact photo slot before (or without) a photo: a tinted person icon on a soft circle */
+    private fun showPlaceholderImage() = binding.recentContactImage.apply {
+        isVisible = true
+        val pad = (resources.displayMetrics.density * 12).toInt()
+        setPadding(pad, pad, pad, pad)
+        imageTintList = ColorStateList.valueOf(baseActivity.getAttrColor(R.attr.colorOnSurfaceVariant))
     }
 
     companion object {

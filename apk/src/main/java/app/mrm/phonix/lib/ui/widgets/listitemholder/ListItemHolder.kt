@@ -77,6 +77,13 @@ open class ListItemHolder(protected val binding: ListItemBinding) :
             binding.listItemCaption.isVisible = value != null && value.isNotEmpty()
         }
 
+    var subtitleText: String?
+        get() = binding.listItemSubtitle.text.toString()
+        set(value) {
+            binding.listItemSubtitle.text = value
+            binding.listItemSubtitle.isVisible = !value.isNullOrEmpty()
+        }
+
     var isLeftButtonVisible: Boolean
         get() = binding.listItemLeftButton.isVisible
         set(value) {
@@ -100,6 +107,8 @@ open class ListItemHolder(protected val binding: ListItemBinding) :
         set(value) {
             binding.listItemRightButton.isEnabled = value
         }
+
+    private val defaultCaptionImageTint = binding.listItemCaptionImage.imageTintList
 
     init {
         binding.listItemLeftButton.setOnClickListener { _onLeftButtonClickListener.invoke() }
@@ -179,6 +188,12 @@ open class ListItemHolder(protected val binding: ListItemBinding) :
     fun setCaptionImageRes(imageRes: Int) {
         binding.listItemCaptionImage.setImageResource(imageRes)
         binding.listItemCaptionImage.isVisible = true
+    }
+
+    /** @param color the tint for the caption image, or null for the default one */
+    fun setCaptionImageTint(@ColorInt color: Int?) {
+        binding.listItemCaptionImage.imageTintList =
+            if (color == null) defaultCaptionImageTint else ColorStateList.valueOf(color)
     }
 
     fun setLeftButtonIcon(iconRes: Int) {

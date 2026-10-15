@@ -12,5 +12,7 @@ interface RecentsInteractor : BaseInteractor<RecentsInteractor.Listener> {
     fun getRecents(): Flow<List<RecentAccount>>
     fun getRecent(recentId: Long): Flow<RecentAccount?>
     fun getCallTypeImage(@RecentAccount.CallType callType: Int): Int
+    /** colour for the call type arrow, or null to keep the default (grey) tint */
+    @androidx.annotation.ColorRes fun getCallTypeColorRes(@RecentAccount.CallType callType: Int): Int?
     fun getLastOutgoingCall(): String
 }

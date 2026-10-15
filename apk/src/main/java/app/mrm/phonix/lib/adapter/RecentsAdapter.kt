@@ -58,10 +58,15 @@ class RecentsAdapter @Inject constructor(
                 ?: item.number.takeIf { it.isNotBlank() }
                 ?: PhoneLookupAccount.PRIVATE.displayString
 
+            val cachedName = item.cachedName?.takeIf { it.isNotBlank() }
+
             captionText = baseCaption
             titleText = fallbackTitle
+            // second line: the number (when the title is a name, not the number itself)
+            subtitleText = if (cachedName != null) item.number.takeIf { it.isNotBlank() } else null
             showFallbackImage(item.cachedName?.takeIf { it.isNotBlank() })
             setCaptionImageRes(recents.getCallTypeImage(item.type))
+            setCaptionImageTint(recents.getCallTypeColorRes(item.type)?.let(context::getColor))
 
             // Rows are recycled; remember which item this holder is bound to so a slow
             // lookup for a previous item can't overwrite the current one.
@@ -79,6 +84,9 @@ class RecentsAdapter @Inject constructor(
 
                     val name = account?.name?.takeIf { it.isNotBlank() }
                     titleText = name ?: fallbackTitle
+                    subtitleText = if (name != null || cachedName != null) {
+                        item.number.takeIf { it.isNotBlank() }
+                    } else null
 
                     val photo = account?.photoUri?.takeIf { it.isNotEmpty() }?.let(Uri::parse)
                     when {
@@ -86,10 +94,14 @@ class RecentsAdapter @Inject constructor(
                         else -> showFallbackImage(name ?: item.cachedName?.takeIf { it.isNotBlank() })
                     }
 
-                    if (account?.contactId != null) {
-                        captionText = "$baseCaption ${
+                    // a dot separates the SIM icon from the time (only when the icon is shown)
+                    val simDot = if (sim != null) "· " else ""
+                    captionText = if (account?.contactId != null) {
+                        "$simDot$baseCaption ${
                             Phone.getTypeLabel(context.resources, account.type, account.label)
                         } ·"
+                    } else {
+                        "$simDot$baseCaption"
                     }
                 }
             }
