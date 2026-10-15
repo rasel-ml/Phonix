@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Jesus" />
+            tools:text="Rasel" />
 
         <TextView
             android:id="@+id/recent_caption"
@@ -43,8 +43,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/recent_contact_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:layout_marginEnd="@dimen/default_spacing_big"
             android:background="?attr/colorSurfaceVariant"
             android:scaleType="centerCrop"
