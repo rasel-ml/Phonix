@@ -1,6 +1,6 @@
 <img src=".github/raw/Phonix.jpg" alt="App Banner" width="100%"></img>
 <p align="center"></p>
-<h1 align="center"><span><img src=".github/raw/app_icon.png" alt="App Icon" height="29" width="29"></span><span>  Phonix</span></h1>
+<h1 align="center"><span><img src=".github/raw/app_icon.png" alt="App Icon" height="28" width="28"></span><span>  Phonix</span></h1>
 <p align="center">A clean, fast Android dialer with a built-in contact editor.</p>
 
 ## Features
@@ -13,8 +13,9 @@
 
 ## Acknowledgements
 
-Phonix is a fork of [Koler](https://github.com/Chooloo/koler), and keeps much of its architecture and design. the pupose behind it to revive the app since developer maybe reject |he app.
-
+Phonix is a fork of [Koler](https://github.com/Chooloo/koler), and keeps much of its architecture and design.
+The goal of this project is to revive and maintain Koler by continuing its development and improving its functionality.
+Special thanks to the original Koler developers and contributors for their work.
 Other open-source libraries used include Picasso, Dagger Hilt, AndroidX, Material Components, and the avatar view by Abdul Aris R.
 
 
@@ -26,7 +27,7 @@ This app is developed with the help of
 
 No laptop or desktop computer was used in the development of this project.
 
-## Copyright
+## Copyright and License
 Copyright (C) 2026 Md. Rasel Molla
 
 Phonix is free software, released under the [GNU General Public License (GPL)](LICENCE), the same license as the original Koler. 
