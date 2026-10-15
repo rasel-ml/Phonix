@@ -1,27 +1,32 @@
-# Phonix
+<img src=".github/raw/Phonix.jpg" alt="App Banner" width="100%"></img>
+<p align="center"></p>
+<h1 align="center"><span><img src=".github/raw/app_icon.png" alt="App Icon" height="29" width="29"></span><span>  Phonix</span></h1>
+<p align="center">A clean, fast Android dialer with a built-in contact editor.</p>
 
-A simple, clean Android dialer. Based on [Koler](https://github.com/Chooloo/koler) by Chooloo (copyleft; see the original project for its license).
+## Features
 
-- Package: `app.mrm.phonix`
-- Android 8.0+ (API 26), targets Android 13 (API 33)
-- Single module: `apk/`
+- **Minimal permissions, no ads:** only what a dialer needs, with no internet permission, no ads and no trackers
+- **Everything a dialer should do:** make and receive calls, dial pad, call log, missed-call notifications, and a proper in-call screen
+- **Dual-SIM ready:** pick the SIM before you call, and see which SIM each call used in your call history
+- **Built-in contact viewer and editor:** view, add and edit contacts without leaving the app
+- **Cool Material design:** clean Material 3 look with light and dark themes and an adaptive icon
 
-## Build a debug APK
+## Acknowledgements
 
-Requires JDK 17 and the Android SDK (platform 33).
+Phonix is a fork of [Koler](https://github.com/Chooloo/koler), and keeps much of its architecture and design. the pupose behind it to revive the app since developer maybe reject |he app.
 
-```sh
-./gradlew :apk:assembleDebug
-# -> apk/build/outputs/apk/debug/apk-debug.apk
-```
+Other open-source libraries used include Picasso, Dagger Hilt, AndroidX, Material Components, and the avatar view by Abdul Aris R.
 
-CI: `.github/workflows/debug-apk.yml` builds the debug APK on every push / PR and uploads it as a
-workflow artifact (`phonix-debug-apk`). It can also be started manually from the Actions tab.
 
-## Contact editor
+## Development
+This app is developed with the help of
+- Claude AI — Coding assistance
+- Termux (Android) — Version control and development
+- GitHub Actions — Automated builds
 
-Adding and editing contacts happens inside the app (`lib/ui/contacteditor/`), not in the system contacts app.
-It supports photo (with a pinch-to-zoom square/circle cropper), name parts (prefix / first / middle / last / suffix), nickname, phonetic pronunciation, favorite star, delete, phones, emails, postal
-addresses, "file as", organization (company / job title / department), birthday & other dates, websites, messaging
-accounts, related people, SIP addresses, notes and free-form custom fields. Every typed field accepts a
-custom label. Custom fields use a mimetype private to this app, so other contacts apps don't show them.
+No laptop or desktop computer was used in the development of this project.
+
+## Copyright
+Copyright (C) 2026 Md. Rasel Molla
+
+Phonix is free software, released under the [GNU General Public License (GPL)](LICENCE), the same license as the original Koler. 
