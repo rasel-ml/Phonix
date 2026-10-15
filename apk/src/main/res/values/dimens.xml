@@ -46,4 +46,5 @@
     <!--endregion-->
 
     <dimen name="search_bar_height">35dp</dimen>
+    <dimen name="popup_photo_size">80dp</dimen>
 </resources>

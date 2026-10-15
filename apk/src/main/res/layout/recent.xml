@@ -24,11 +24,14 @@
             android:maxLines="2"
             android:textAlignment="textStart"
             android:textAppearance="@style/Chooloo.Text.Headline"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@id/recent_caption"
+            app:layout_constraintEnd_toStartOf="@id/recent_contact_image"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Rasel" />
+            tools:text="Jesus" />
 
         <TextView
             android:id="@+id/recent_caption"
@@ -43,16 +46,14 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/recent_contact_image"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="@dimen/popup_photo_size"
+            android:layout_height="@dimen/popup_photo_size"
             android:layout_marginEnd="@dimen/default_spacing_big"
             android:background="?attr/colorSurfaceVariant"
-            android:scaleType="centerCrop"
             android:src="@drawable/person"
-            app:layout_constraintBottom_toBottomOf="@id/recent_caption"
-            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/recent_text_name"
+            app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/Chooloo.Image.Profile"
             tools:visibility="visible" />
 

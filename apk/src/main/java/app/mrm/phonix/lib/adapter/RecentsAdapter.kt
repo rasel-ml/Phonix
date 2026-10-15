@@ -95,7 +95,7 @@ class RecentsAdapter @Inject constructor(
                     }
 
                     // a dot separates the SIM icon from the time (only when the icon is shown)
-                    val simDot = if (sim != null) "  " else ""
+                    val simDot = if (sim != null) " " else ""
                     captionText = if (account?.contactId != null) {
                         "$simDot$baseCaption ${
                             Phone.getTypeLabel(context.resources, account.type, account.label)
