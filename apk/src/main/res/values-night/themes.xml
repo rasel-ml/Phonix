@@ -8,6 +8,7 @@
 
         <item name="elevationOverlayEnabled">false</item>
         <item name="bottomSheetDialogTheme">@style/Chooloo.BottomSheet</item>
+        <item name="materialAlertDialogTheme">@style/Chooloo.AlertDialog</item>
 
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/on_primary</item>

@@ -34,15 +34,6 @@ class NavigationsInteractorImpl @Inject constructor(
         )
     }
 
-    override fun sendEmail() {
-        context.startActivity(
-            Intent(ACTION_SEND)
-                .setType("message/rfc822")
-                .putExtra(EXTRA_EMAIL, arrayOf(strings.getString(R.string.support_email)))
-                .setFlags(FLAG_ACTIVITY_NEW_TASK)
-        )
-    }
-
     override fun goToAppGithub() {
         context.startActivity(
             Intent(

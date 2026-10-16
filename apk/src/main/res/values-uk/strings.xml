@@ -21,7 +21,6 @@
     <string name="action_choose_audio_route">Вибрати пристрій звуку</string>
     <string name="action_choose_phone_account">Вибрати акаунт</string>
     <string name="app_name">Phonix</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <string name="hint_search">Пошук</string>
     <string name="hint_theme_mode">Тема</string>
     <string name="hint_sim_account">Sim акаунт</string>
@@ -65,7 +64,6 @@
     <string name="pref_title_animations">Анімації</string>
     <string name="pref_title_app_color">Колірний акцент</string>
     <string name="pref_title_theme_mode">Тема</string>
-    <string name="pref_title_email">Надіслати нам Email</string>
     <string name="pref_title_manage_blocked">Керувати заблокованими номерами</string>
     <string name="error_no_results">Немає результатів</string>
     <string name="error_no_results_recents">Немає нещодавніх</string>

@@ -7,7 +7,6 @@ interface NavigationsInteractor : BaseInteractor<NavigationsInteractor.Listener>
     interface Listener
 
     fun donate()
-    fun sendEmail()
     fun goToAppGithub()
     fun manageBlockedNumber()
     fun goToLauncherActivity()

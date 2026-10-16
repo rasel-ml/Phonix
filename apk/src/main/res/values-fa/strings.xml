@@ -20,7 +20,6 @@
     <string name="action_choose_audio_route">منبع صوتی را مشخص کنید</string>
     <string name="action_choose_phone_account">سیم کارت مدنظر را انتخاب کنید</string>
     <string name="app_name">Phonix</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <string name="hint_search">جستجو</string>
     <string name="hint_theme_mode">حالت نمایه</string>
     <string name="hint_sim_account">سیم کارت</string>
@@ -61,7 +60,6 @@
     <string name="pref_title_animations">پویانمایی ها</string>
     <string name="pref_title_app_color">رنگ اصلی</string>
     <string name="pref_title_theme_mode">حالت نمایه</string>
-    <string name="pref_title_email">به ما ایمیل بزنید</string>
     <string name="pref_title_manage_blocked">مدیریت شماره های مسدودشده</string>
     <string name="error_no_results">نتیجه نداشت</string>
     <string name="error_no_results_recents">گزارشی موجود نیست</string>

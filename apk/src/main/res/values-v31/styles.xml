@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+: blur whatever is behind a pop-up, on top of the dim. The pop-up stays sharp. -->
+    <style name="Chooloo.BottomSheet" parent="Theme.Material3.DayNight.BottomSheetDialog">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">@dimen/popup_dim_amount</item>
+        <item name="android:windowBlurBehindEnabled">true</item>
+        <item name="android:windowBlurBehindRadius">@dimen/popup_blur_radius</item>
+        <item name="bottomSheetStyle">@style/Chooloo.BottomDialog.BottomSheetStyle</item>
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+    <style name="Chooloo.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">@dimen/popup_dim_amount</item>
+        <item name="android:windowBlurBehindEnabled">true</item>
+        <item name="android:windowBlurBehindRadius">@dimen/popup_blur_radius</item>
+    </style>
+</resources>

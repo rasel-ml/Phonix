@@ -43,9 +43,16 @@
 
     <!--region bottom dialog -->
     <style name="Chooloo.BottomSheet" parent="Theme.Material3.DayNight.BottomSheetDialog">
-        <item name="android:backgroundDimAmount">0.1</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">@dimen/popup_dim_amount</item>
         <item name="bottomSheetStyle">@style/Chooloo.BottomDialog.BottomSheetStyle</item>
         <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+    <!-- alert dialogs get the same dim (and blur on Android 12+, see values-v31) -->
+    <style name="Chooloo.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">@dimen/popup_dim_amount</item>
     </style>
 
     <style name="Chooloo.BottomDialog" />

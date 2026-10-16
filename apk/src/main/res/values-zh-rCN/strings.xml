@@ -19,7 +19,6 @@
     <string name="action_show_history">显示历史通话</string>
     <string name="action_block_number">阻挡电话号码</string>
     <string name="action_unblock_number">取消阻挡电话号码</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <string name="hint_search">搜索</string>
     <string name="hint_theme_mode">主题模式</string>
     <string name="hint_sim_account">SIM账户</string>

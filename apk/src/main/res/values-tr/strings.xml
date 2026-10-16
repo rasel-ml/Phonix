@@ -21,7 +21,6 @@
     <string name="action_choose_audio_route">Ses yolunu seç</string>
     <string name="action_choose_phone_account">Telefon hesabını seç</string>
     <string name="app_name">Phonix</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <string name="hint_search">Arama</string>
     <string name="hint_theme_mode">Uygulama Teması</string>
     <string name="hint_sim_account">SIM Hesabı</string>
@@ -65,7 +64,6 @@
     <string name="pref_title_animations">Animasyonlar</string>
     <string name="pref_title_app_color">Vurgu rengi</string>
     <string name="pref_title_theme_mode">Uygulama teması</string>
-    <string name="pref_title_email">Bize e-posta gönder</string>
     <string name="pref_title_manage_blocked">Engellenen numaraları yönet</string>
     <string name="error_no_results">Sonuç yok</string>
     <string name="error_no_results_recents">Son arama yok</string>

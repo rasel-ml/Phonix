@@ -7,7 +7,6 @@
     <string name="action_yes">Da</string>
     <string name="action_no">Ne</string>
     <string name="app_name">Phonix</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <string name="hint_search">Traži</string>
     <string name="explain_is_on_hold">%s is on hold</string>
     <string name="explain_delete_contact">Are you sure you want to delete that contact?</string>
@@ -25,7 +24,6 @@
     <string name="call_status_active">Poziv u tijeku</string>
     <string name="pref_title_animations">Animacije</string>
     <string name="pref_title_app_color">Boja teme</string>
-    <string name="pref_title_email">Pošalji nam e-poštu</string>
     <string name="error_no_results">Nema rezultata :/</string>
     <string name="error_no_results_phones">Nema telefonskih brojeva :/</string>
     <string name="error_no_results_contacts">Nema kontakata :/</string>

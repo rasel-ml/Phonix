@@ -3,6 +3,7 @@ package app.mrm.phonix.lib.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import app.mrm.phonix.lib.api.service.CallService
 import app.mrm.phonix.lib.interactor.callaudio.CallAudiosInteractor
 import app.mrm.phonix.lib.interactor.calls.CallsInteractor
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +19,11 @@ class CallBroadcastReceiver : BroadcastReceiver() {
         when (intent.action) {
             ACTION_MUTE -> callAudios.isMuted = true
             ACTION_UNMUTE -> callAudios.isMuted = false
-            ACTION_ANSWER -> calls.mainCall?.answer()
+            ACTION_ANSWER -> {
+                calls.mainCall?.answer()
+                // like Google Phone: answering from the pop-up takes you to the call screen
+                if (!CallService.sIsActivityActive) CallService.sInstance?.startCallActivity()
+            }
             ACTION_HANGUP -> calls.mainCall?.reject()
             ACTION_SPEAKER -> callAudios.isSpeakerOn = true
             ACTION_UNSPEAKER -> callAudios.isSpeakerOn = false

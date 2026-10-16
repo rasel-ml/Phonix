@@ -1,6 +1,7 @@
 package app.mrm.phonix.lib.notification
 
 import android.app.Notification
+import android.app.Service
 import android.app.Notification.CATEGORY_CALL
 import android.app.Notification.EXTRA_NOTIFICATION_ID
 import android.app.NotificationManager.IMPORTANCE_DEFAULT
@@ -17,10 +18,13 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
 import app.mrm.phonix.R
 import app.mrm.phonix.lib.data.model.Call
 import app.mrm.phonix.lib.data.model.Call.State.DISCONNECTED
 import app.mrm.phonix.lib.data.model.Call.State.DISCONNECTING
+import app.mrm.phonix.lib.data.model.PhoneLookupAccount
+import app.mrm.phonix.lib.api.service.CallService
 import app.mrm.phonix.lib.di.module.IoScope
 import app.mrm.phonix.lib.interactor.callaudio.CallAudiosInteractor
 import app.mrm.phonix.lib.interactor.calls.CallsInteractor
@@ -30,6 +34,7 @@ import app.mrm.phonix.lib.interactor.preferences.PreferencesInteractor
 import app.mrm.phonix.lib.interactor.preferences.PreferencesInteractor.Companion.IncomingCallMode
 import app.mrm.phonix.lib.interactor.string.StringsInteractor
 import app.mrm.phonix.lib.receiver.CallBroadcastReceiver
+import app.mrm.phonix.lib.receiver.CallBroadcastReceiver.Companion.ACTION_ANSWER
 import app.mrm.phonix.lib.receiver.CallBroadcastReceiver.Companion.ACTION_HANGUP
 import app.mrm.phonix.lib.receiver.CallBroadcastReceiver.Companion.ACTION_MUTE
 import app.mrm.phonix.lib.receiver.CallBroadcastReceiver.Companion.ACTION_SPEAKER
@@ -58,12 +63,12 @@ class CallNotification @Inject constructor(
 
     private var _call: Call? = null
 
+    /** the pop-up is only used while a call is ringing and the user chose pop-up notifications */
+    private val _isPopUp
+        get() = _call?.isIncoming == true && preferences.incomingCallMode == IncomingCallMode.POP_UP
+
     private val _channel
-        get() = if (_call?.isIncoming == true && preferences.incomingCallMode == IncomingCallMode.POP_UP) {
-            _channelImportanceHigh
-        } else {
-            _channelImportanceLow
-        }
+        get() = if (_isPopUp) _channelIncoming else _channelImportanceLow
 
     private val _channelImportanceLow by lazy {
         NotificationChannelCompat.Builder(CHANNEL_ID_PRIORITY_LOW, IMPORTANCE_DEFAULT)
@@ -73,10 +78,15 @@ class CallNotification @Inject constructor(
             .also(notificationManager::createNotificationChannel)
     }
 
-    private val _channelImportanceHigh by lazy {
-        NotificationChannelCompat.Builder(CHANNEL_ID_PRIORITY_HIGH, IMPORTANCE_HIGH)
-            .setName(strings.getString(R.string.call_notification_channel_name))
-            .setDescription(strings.getString(R.string.call_notification_channel_description))
+    // heads-up channel for ringing calls; the ringtone itself is played by the system, so this
+    // channel stays silent
+    private val _channelIncoming by lazy {
+        NotificationChannelCompat.Builder(CHANNEL_ID_INCOMING_CALL, IMPORTANCE_HIGH)
+            .setName(strings.getString(R.string.call_notification_channel_incoming_name))
+            .setDescription(strings.getString(R.string.call_notification_channel_incoming_description))
+            .setSound(null, null)
+            .setVibrationEnabled(false)
+            .setShowBadge(false)
             .build()
             .also(notificationManager::createNotificationChannel)
     }
@@ -92,21 +102,20 @@ class CallNotification @Inject constructor(
         )
     }
 
-    private val _answerAction by lazy {
-        NotificationCompat.Action(
-            R.drawable.call,
-            strings.getString(R.string.action_answer),
-            getCallPendingIntent(ACTION_ANSWER, 0)
+    // shown over the lock screen (or when the screen is off) while the call is ringing
+    private val _fullScreenPendingIntent by lazy {
+        PendingIntent.getActivity(
+            context,
+            1,
+            Intent(context, CallActivity::class.java).apply {
+                flags = FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_SINGLE_TOP
+            },
+            FLAG_IMMUTABLE
         )
     }
 
-    private val _hangupAction by lazy {
-        NotificationCompat.Action(
-            R.drawable.call_end,
-            strings.getString(R.string.action_hangup),
-            getCallPendingIntent(ACTION_HANGUP, 1)
-        )
-    }
+    private val _answerIntent by lazy { getCallPendingIntent(ACTION_ANSWER, 0) }
+    private val _hangupIntent by lazy { getCallPendingIntent(ACTION_HANGUP, 1) }
 
     private val _muteAction by lazy {
         NotificationCompat.Action(
@@ -178,26 +187,42 @@ class CallNotification @Inject constructor(
 
     private suspend fun buildNotification(call: Call, callback: (Notification) -> Unit) {
         val phoneAccount = phones.lookupAccount(call.number)
+        val number = call.number?.takeIf { it.isNotBlank() }
+        val name = phoneAccount?.displayString?.takeIf { it.isNotBlank() }
+            ?: number
+            ?: PhoneLookupAccount.PRIVATE.displayString
+        // the number is shown under the name, unless the name already is the number
+        val numberLine = number?.takeIf { it != name }
+        val stateLine = strings.getString(call.state.stringRes)
+
+        val person = Person.Builder().setName(name).setImportant(true).build()
+        val isPopUp = _isPopUp
+        val isEnding = call.state in arrayOf(DISCONNECTED, DISCONNECTING)
+
         val builder = NotificationCompat.Builder(context, _channel.id)
             .setWhen(0)
             .setOngoing(true)
-            .setColorized(true)
             .setPriority(PRIORITY)
             .setOnlyAlertOnce(true)
             .setCategory(CATEGORY_CALL)
-            .setContentTitle(phoneAccount?.displayString ?: call.number)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
+            .setContentTitle(name)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(_contentPendingIntent)
             .setColor(colors.getAttrColor(R.attr.colorSecondary))
-            .setContentText(strings.getString(call.state.stringRes))
-
-        if (call.state !in arrayOf(DISCONNECTED, DISCONNECTING)) {
-            builder.addAction(_hangupAction)
-        }
+            .setContentText(listOfNotNull(stateLine, numberLine).joinToString(" · "))
 
         if (call.isIncoming) {
-            builder.addAction(_answerAction)
-        } else if (call.state !in arrayOf(DISCONNECTED, DISCONNECTING)) {
+            // big green Answer + big red Decline buttons (same look as Google Phone / WhatsApp)
+            builder.setStyle(
+                NotificationCompat.CallStyle.forIncomingCall(person, _hangupIntent, _answerIntent)
+            )
+            if (isPopUp) {
+                builder.setFullScreenIntent(_fullScreenPendingIntent, true)
+            }
+        } else if (!isEnding) {
+            builder.setStyle(NotificationCompat.CallStyle.forOngoingCall(person, _hangupIntent))
             callAudios.isMuted?.let { isMuted ->
                 if (call.isCapable(CAPABILITY_MUTE)) {
                     builder.addAction(if (isMuted) _unmuteAction else _muteAction)
@@ -222,12 +247,40 @@ class CallNotification @Inject constructor(
     fun detach() {
         calls.unregisterListener(this)
         callAudios.unregisterListener(this)
+        // the notification is the service's foreground notification: drop that state first
+        try {
+            CallService.sInstance?.stopForeground(Service.STOP_FOREGROUND_REMOVE)
+        } catch (e: Exception) {
+            // service already gone
+        }
         notificationManager.cancel(ID)
     }
 
     fun show(call: Call) {
         ioScope.launch {
-            buildNotification(call) { notificationManager.notify(ID, it) }
+            buildNotification(call) { post(it) }
+        }
+    }
+
+    /**
+     * Call styled notifications must belong to a foreground service (or have a full screen
+     * intent), so the call service is moved to the foreground with this notification. The same
+     * call is used to update it later.
+     */
+    private fun post(notification: Notification) {
+        try {
+            val service = CallService.sInstance
+            if (service != null) {
+                service.startForeground(ID, notification)
+            } else {
+                notificationManager.notify(ID, notification)
+            }
+        } catch (e: Exception) {
+            try {
+                notificationManager.notify(ID, notification)
+            } catch (e2: Exception) {
+                // nothing more we can do: the call screen itself still works
+            }
         }
     }
 
@@ -240,6 +293,6 @@ class CallNotification @Inject constructor(
         const val ID = 420
         const val PRIORITY = NotificationCompat.PRIORITY_HIGH
         const val CHANNEL_ID_PRIORITY_LOW = "cnc_priority_low"
-        const val CHANNEL_ID_PRIORITY_HIGH = "cnc_priority_high"
+        const val CHANNEL_ID_INCOMING_CALL = "cnc_incoming_call"
     }
 }

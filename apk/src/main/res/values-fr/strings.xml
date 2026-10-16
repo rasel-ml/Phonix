@@ -19,7 +19,6 @@
     <string name="action_unblock_number">Débloquer ce numéro</string>
     <string name="action_choose_audio_route">Sortie audio</string>
     <string name="app_name">Phonix</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <string name="hint_search">Recherche</string>
     <string name="hint_theme_mode">Thème de l\'application</string>
     <string name="hint_sim_account">Compte SIM</string>
@@ -59,7 +58,6 @@
     <string name="pref_title_animations">Animations</string>
     <string name="pref_title_app_color">Couleur d\'accentuation</string>
     <string name="pref_title_theme_mode">Thème de l\'application</string>
-    <string name="pref_title_email">Nous envoyer un e-mail</string>
     <string name="pref_title_manage_blocked">Gérer les numéros bloqués</string>
     <string name="error_no_results">Aucun résultat</string>
     <string name="error_no_results_recents">Aucun élément récent trouvé</string>

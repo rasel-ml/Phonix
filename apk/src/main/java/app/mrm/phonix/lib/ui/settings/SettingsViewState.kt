@@ -40,7 +40,6 @@ open class SettingsViewState @Inject constructor(
 
     override fun onMenuItemClick(itemId: Int) {
         when (itemId) {
-            R.id.menu_chooloo_email -> navigations.sendEmail()
             R.id.menu_chooloo_theme_mode -> _askForThemeModeEvent.call()
             R.id.menu_chooloo_animations -> _askForAnimationsEvent.call(preferences.isAnimations)
             else -> super.onMenuItemClick(itemId)

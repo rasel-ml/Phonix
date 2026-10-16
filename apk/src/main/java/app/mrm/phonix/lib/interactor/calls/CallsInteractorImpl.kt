@@ -104,6 +104,9 @@ class CallsInteractorImpl @Inject constructor() :
         call.unregisterListener(this)
         if (_callList.size == 0) {
             listeners.forEach { l -> l.onNoCalls() }
+        } else {
+            // another call is still there: let listeners (e.g. the notification) move on to it
+            mainCall?.let { main -> invokeListeners { l -> l.onMainCallChanged(main) } }
         }
     }
 

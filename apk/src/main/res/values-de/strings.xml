@@ -30,7 +30,6 @@
     <string name="action_choose_audio_route">Audioausgang wählen</string>
     <string name="action_choose_phone_account">Telefonkonto auswählen</string>
     <string name="app_name">Phonix</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <string name="hint_search">Suche</string>
     <string name="hint_theme_mode">Design</string>
     <string name="hint_sim_account">SIM-Karte</string>
@@ -72,7 +71,6 @@
     <string name="pref_title_animations">Animationen</string>
     <string name="pref_title_app_color">Farbakzente</string>
     <string name="pref_title_theme_mode">Design</string>
-    <string name="pref_title_email">Schrebe uns eine E-Mail</string>
     <string name="pref_title_manage_blocked">Blockierte Nummern verwalten</string>
     <string name="error_no_results">Keine Ergebnisse</string>
     <string name="error_no_results_recents">Keine kürzlichen Anrufe</string>

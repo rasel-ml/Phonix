@@ -46,7 +46,6 @@
 
     <!--region Phonix-->
     <string name="app_name">Phonix</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <!--endregion-->
 
     <!--region hints-->
@@ -129,7 +128,6 @@
     <!--region pref title-->
     <string name="pref_title_animations">Animations</string>
     <string name="pref_title_theme_mode">Theme Mode</string>
-    <string name="pref_title_email">Email Us</string>
     <string name="pref_title_manage_blocked">Manage Blocked Numbers</string>
     <!--endregion-->
 
@@ -183,6 +181,8 @@
     <!--endregion-->
 
     <!--region notification-->
+    <string name="call_notification_channel_incoming_name">Incoming calls</string>
+    <string name="call_notification_channel_incoming_description">Ringing call pop-up with Answer and Decline buttons</string>
     <string name="call_notification_channel_name">Call Notification</string>
     <string name="call_notification_channel_description">Active call notification, shown for comfortable usage</string>
     <!--endregion-->

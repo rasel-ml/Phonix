@@ -66,7 +66,8 @@ class CallService : InCallService() {
         callAudios.entryCallAudioStateChanged(callAudioState)
     }
 
-    private fun startCallActivity() {
+    /** opens the in-call screen (also used after answering from the notification) */
+    fun startCallActivity() {
         val intent = Intent(this, CallActivity::class.java)
         intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

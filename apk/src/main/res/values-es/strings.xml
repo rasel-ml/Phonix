@@ -4,7 +4,6 @@
     <string name="action_answer">Responder</string>
     <string name="action_hangup">Colgar</string>
     <string name="app_name">Phonix</string>
-    <string name="support_email">choolookulu@gmail.com</string>
     <string name="hint_search">Buscar</string>
     <string name="app_source_url">https://github.com/Chooloo/call_manage</string>
     <string name="donation_link">https://github.com/Chooloo/call_manage/blob/master/README.md</string>
@@ -18,7 +17,6 @@
     <string name="call_status_disconnected">Llamada terminada</string>
     <string name="call_status_active">Llamada en progreso</string>
     <string name="pref_title_app_color">Color de acento</string>
-    <string name="pref_title_email">Escríbanos un correo electrónico</string>
     <string name="error_no_results">No hay resultados :/</string>
     <string name="dialpad_0_letters">+</string>
     <string name="dialpad_star_letters" />
