@@ -5,7 +5,6 @@ import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import app.mrm.phonix.lib.interactor.preferences.PreferencesInteractor
 import app.mrm.phonix.lib.interactor.preferences.PreferencesInteractor.Companion.Page
 import app.mrm.phonix.lib.interactor.prompt.PromptsInteractor
 import app.mrm.phonix.lib.interactor.screen.ScreensInteractor
@@ -42,7 +41,6 @@ class MainActivity : BaseActivity<MainViewState>() {
     private val _contactsFragment by lazy { choolooFragmentFactory.getContactsFragment() }
 
     @Inject lateinit var prompts: PromptsInteractor
-    @Inject lateinit var preferences: PreferencesInteractor
     @Inject lateinit var screens: ScreensInteractor
     @Inject lateinit var fragmentFactory: FragmentFactory
     @Inject lateinit var choolooFragmentFactory: ChoolooFragmentFactory
