@@ -2,11 +2,11 @@ name: Build release APK
 
 on:
   workflow_dispatch:
-    push:
-        branches: [ main ]
-        paths:
-          - 'apk/**'
-          
+  push:
+    branches: [ main ]
+    paths:
+      - 'apk/**'
+      
 permissions:
   contents: write
   actions: read

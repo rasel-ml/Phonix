@@ -49,8 +49,9 @@ class RecentsAdapter @Inject constructor(
     ) {
         listItemHolder.apply {
             val date = context.getHoursString(item.date)
-            val baseCaption =
-                if (item.groupCount > 1) "(${item.groupCount}) $date ·" else "$date ·"
+            val baseCaption = "$date ·"
+            // grouped entries show how many calls they hold right after the name / number
+            val countSuffix = if (item.groupCount > 1) " (${item.groupCount})" else ""
 
             // Always have something to show right away: the call log's cached name (may be an
             // empty string for unknown numbers) or, failing that, the number itself.
@@ -61,7 +62,7 @@ class RecentsAdapter @Inject constructor(
             val cachedName = item.cachedName?.takeIf { it.isNotBlank() }
 
             captionText = baseCaption
-            titleText = fallbackTitle
+            titleText = fallbackTitle + countSuffix
             // second line: the number (when the title is a name, not the number itself)
             subtitleText = if (cachedName != null) item.number.takeIf { it.isNotBlank() } else null
             showFallbackImage(item.cachedName?.takeIf { it.isNotBlank() })
@@ -83,7 +84,7 @@ class RecentsAdapter @Inject constructor(
                     if (sim == null) hideSim() else showSim(sim.slotNumber, sim.color, sim.isAvailable)
 
                     val name = account?.name?.takeIf { it.isNotBlank() }
-                    titleText = name ?: fallbackTitle
+                    titleText = (name ?: fallbackTitle) + countSuffix
                     subtitleText = if (name != null || cachedName != null) {
                         item.number.takeIf { it.isNotBlank() }
                     } else null

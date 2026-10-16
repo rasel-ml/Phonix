@@ -44,7 +44,7 @@ class MainViewState @Inject constructor(
     override fun attach() {
         super.attach()
         permissions.checkDefaultDialer { requestNotificationPermission() }
-        _currentPageIndex.value = preferences.defaultPage.index
+        _currentPageIndex.value = MainPages.initialIndex(preferences)
         _searchHint.value = strings.getString(R.string.hint_search_items)
     }
 

@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'app/**'
+      - 'apk/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'app/**'
+      - 'apk/**'
   workflow_dispatch:
 
 jobs:

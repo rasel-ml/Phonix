@@ -46,7 +46,7 @@
     <!--endregion-->
 
     <dimen name="search_bar_height">35dp</dimen>
-    <item name="popup_dim_amount" format="float" type="dimen">0.35</item>
-    <dimen name="popup_blur_radius">16dp</dimen>
+    <item name="popup_dim_amount" format="float" type="dimen">0.4</item>
+    <dimen name="popup_blur_radius">24dp</dimen>
     <dimen name="popup_photo_size">80dp</dimen>
 </resources>

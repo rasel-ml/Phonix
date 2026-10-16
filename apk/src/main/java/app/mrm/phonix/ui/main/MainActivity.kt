@@ -5,6 +5,8 @@ import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import app.mrm.phonix.lib.interactor.preferences.PreferencesInteractor
+import app.mrm.phonix.lib.interactor.preferences.PreferencesInteractor.Companion.Page
 import app.mrm.phonix.lib.interactor.prompt.PromptsInteractor
 import app.mrm.phonix.lib.interactor.screen.ScreensInteractor
 import app.mrm.phonix.lib.ui.base.BaseActivity
@@ -27,11 +29,20 @@ class MainActivity : BaseActivity<MainViewState>() {
     private val recentsViewState: RecentsViewState by viewModels()
     private val contactsViewState: ContactsViewState by viewModels()
     private val binding by lazy { MainBinding.inflate(layoutInflater) }
-    private val _fragments by lazy { listOf(_contactsFragment, _recentsFragment) }
+    private val _pages by lazy { MainPages.order(preferences) }
+    private val _fragments by lazy {
+        _pages.map { page ->
+            when (page) {
+                Page.CONTACTS -> _contactsFragment
+                Page.RECENTS -> _recentsFragment
+            }
+        }
+    }
     private val _recentsFragment by lazy { choolooFragmentFactory.getRecentsFragment() }
     private val _contactsFragment by lazy { choolooFragmentFactory.getContactsFragment() }
 
     @Inject lateinit var prompts: PromptsInteractor
+    @Inject lateinit var preferences: PreferencesInteractor
     @Inject lateinit var screens: ScreensInteractor
     @Inject lateinit var fragmentFactory: FragmentFactory
     @Inject lateinit var choolooFragmentFactory: ChoolooFragmentFactory
@@ -42,7 +53,7 @@ class MainActivity : BaseActivity<MainViewState>() {
 
         binding.apply {
             mainTabs.viewPager = mainViewPager
-            mainTabs.setHeadersResList(arrayOf(R.string.contacts, R.string.recents))
+            mainTabs.setHeadersResList(_pages.map { it.titleRes }.toTypedArray())
 
             mainMenuButton.setOnClickListener {
                 viewState.onMenuClick()
