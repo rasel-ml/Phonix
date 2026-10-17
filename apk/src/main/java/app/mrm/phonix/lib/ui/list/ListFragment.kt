@@ -50,7 +50,7 @@ abstract class ListFragment<ItemType, VS : ListViewState<ItemType>> : Permission
             // hugging the screen edge, clear of the rows' own buttons
             setPadding(0, 0, resources.getDimensionPixelSize(R.dimen.fast_scroller_padding_end), 0)
             // only the thumb starts a scroll drag, the rest of the edge belongs to the list
-            FastScrollerTouchGate(this, binding.itemsScrollView).attach()
+            FastScrollerTouchGate(this).attach()
         }
         args.getString(ARG_FILTER)?.let(viewState::onFilterChanged)
     }

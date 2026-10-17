@@ -4,71 +4,77 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
 
 /**
- * The fast scroller is an overlay on top of the list that reacts to a touch anywhere along its
- * (full height) right edge. This gate lets it receive a gesture only when it starts on the
- * visible thumb (plus a small touch slop). Any other gesture that starts in that strip, like a
- * tap on a row's quick call button or a normal swipe, is forwarded to the list instead.
+ * The fast scroller is an overlay on top of the list (both are children of the same
+ * FastScrollView) that starts scrolling for a touch anywhere along its full-height strip.
+ *
+ * This gate lets the scroller receive a gesture only when it starts on the visible thumb (plus a
+ * small touch slop). Any other gesture that starts in that strip, like a tap on a row's quick
+ * call button or a normal swipe, is forwarded to the list's RecyclerView instead.
  */
-class FastScrollerTouchGate(
-    private val scroller: View,
-    private val list: View
-) : View.OnTouchListener {
+class FastScrollerTouchGate(private val scroller: View) : View.OnTouchListener {
     private var isForwarding = false
+    private var isDispatching = false
     private val density = scroller.resources.displayMetrics.density
-    private val slopX = SLOP_DP * density
-    private val slopY = SLOP_DP * density
-    private val origin = IntArray(2)
-    private val listOrigin = IntArray(2)
-
-    // looked up on the first touch, once the scroller has been inflated and laid out
-    private val handle: View? by lazy { findHandle() }
+    private val slop = SLOP_DP * density
+    private val location = IntArray(2)
+    private val listLocation = IntArray(2)
 
     fun attach() = scroller.setOnTouchListener(this)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View, event: MotionEvent): Boolean {
+        // never re-enter through our own forwarding
+        if (isDispatching) return false
+
         if (event.actionMasked == MotionEvent.ACTION_DOWN) {
             isForwarding = !isOnThumb(event)
         }
         if (!isForwarding) return false // the scroller handles it as usual
 
-        v.getLocationOnScreen(origin)
-        list.getLocationOnScreen(listOrigin)
+        // the RecyclerView itself, not its parent: the parent also contains this scroller
+        val list = findList() ?: return false
+
+        v.getLocationOnScreen(location)
+        list.getLocationOnScreen(listLocation)
         val forwarded = MotionEvent.obtain(event)
         forwarded.offsetLocation(
-            (origin[0] - listOrigin[0]).toFloat(),
-            (origin[1] - listOrigin[1]).toFloat()
+            (location[0] - listLocation[0]).toFloat(),
+            (location[1] - listLocation[1]).toFloat()
         )
-        list.dispatchTouchEvent(forwarded)
-        forwarded.recycle()
+        isDispatching = true
+        try {
+            list.dispatchTouchEvent(forwarded)
+        } finally {
+            isDispatching = false
+            forwarded.recycle()
+        }
         return true
     }
 
     private fun isOnThumb(event: MotionEvent): Boolean {
         // if the thumb can't be found, keep the scroller's default behaviour
-        val thumb = handle ?: return true
+        val thumb = findHandle() ?: return true
         if (thumb.visibility != View.VISIBLE) return false
 
-        thumb.getLocationOnScreen(origin)
-        return event.rawX >= origin[0] - slopX && event.rawX <= origin[0] + thumb.width + slopX &&
-                event.rawY >= origin[1] - slopY && event.rawY <= origin[1] + thumb.height + slopY
+        thumb.getLocationOnScreen(location)
+        return event.rawX >= location[0] - slop && event.rawX <= location[0] + thumb.width + slop &&
+                event.rawY >= location[1] - slop && event.rawY <= location[1] + thumb.height + slop
     }
 
     private fun findHandle(): View? {
         val id = scroller.resources.getIdentifier(
-            "fastscroll__handle", "id", scroller.context.packageName
+            "fastscroll_handle", "id", scroller.context.packageName
         )
-        if (id != 0) scroller.findViewById<View>(id)?.let { return it }
-        return firstImage(scroller)
+        return if (id != 0) scroller.findViewById(id) else null
     }
 
-    private fun firstImage(view: View): View? {
-        if (view is ImageView) return view
-        if (view is ViewGroup) {
-            for (i in 0 until view.childCount) firstImage(view.getChildAt(i))?.let { return it }
+    private fun findList(): RecyclerView? {
+        val parent = scroller.parent as? ViewGroup ?: return null
+        for (i in 0 until parent.childCount) {
+            (parent.getChildAt(i) as? RecyclerView)?.let { return it }
         }
         return null
     }
