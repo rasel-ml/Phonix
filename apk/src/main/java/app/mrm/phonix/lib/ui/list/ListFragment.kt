@@ -1,7 +1,9 @@
 package app.mrm.phonix.lib.ui.list
 
 import androidx.core.view.isVisible
+import app.mrm.phonix.R
 import app.mrm.phonix.lib.adapter.ListAdapter
+import app.mrm.phonix.lib.ui.widgets.FastScrollerTouchGate
 import app.mrm.phonix.databinding.ItemsBinding
 import app.mrm.phonix.lib.ui.permissioned.PermissionedFragment
 
@@ -44,7 +46,12 @@ abstract class ListFragment<ItemType, VS : ListViewState<ItemType>> : Permission
             binding.itemsScrollView.setAdapter(this)
         }
 
-        binding.itemsScrollView.fastScroller.setPadding(0, 0, 30, 0)
+        binding.itemsScrollView.fastScroller.apply {
+            // hugging the screen edge, clear of the rows' own buttons
+            setPadding(0, 0, resources.getDimensionPixelSize(R.dimen.fast_scroller_padding_end), 0)
+            // only the thumb starts a scroll drag, the rest of the edge belongs to the list
+            FastScrollerTouchGate(this, binding.itemsScrollView).attach()
+        }
         args.getString(ARG_FILTER)?.let(viewState::onFilterChanged)
     }
 

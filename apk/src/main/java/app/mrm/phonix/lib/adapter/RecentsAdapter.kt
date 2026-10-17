@@ -80,6 +80,8 @@ class RecentsAdapter @Inject constructor(
             if (isRightButtonVisible) {
                 isRightButtonEnabled = true
                 setRightButtonIcon(R.drawable.call)
+                // leaves room for the fast scroller thumb at the screen edge
+                setRightButtonMarginEnd(context.resources.getDimensionPixelSize(R.dimen.recents_quick_call_margin_end))
                 setRightButtonContentDescription(context.getString(R.string.content_description_quick_call))
             }
 

@@ -210,6 +210,14 @@ open class ListItemHolder(protected val binding: ListItemBinding) :
             ColorStateList.valueOf(context.getColor(tintRes))
     }
 
+    fun setRightButtonMarginEnd(marginEnd: Int) {
+        val params = binding.listItemRightButton.layoutParams as ConstraintLayout.LayoutParams
+        if (params.marginEnd != marginEnd) {
+            params.marginEnd = marginEnd
+            binding.listItemRightButton.layoutParams = params
+        }
+    }
+
     fun setRightButtonContentDescription(description: CharSequence?) {
         binding.listItemRightButton.contentDescription = description
     }

@@ -1,14 +1,14 @@
 name: Build debug APK
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'apk/**'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'apk/**'
+  # push:
+    # branches: [ main ]
+    # paths:
+      # - 'apk/**'
+  # pull_request:
+    # branches: [ main ]
+    # paths:
+      # - 'apk/**'
   workflow_dispatch:
 
 jobs:
