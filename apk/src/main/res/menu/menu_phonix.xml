@@ -21,6 +21,11 @@
         android:title="@string/pref_title_group_recents" />
 
     <item
+        android:id="@+id/menu_phonix_quick_call_recents"
+        android:icon="@drawable/call"
+        android:title="@string/pref_title_quick_call_in_recents" />
+
+    <item
         android:id="@+id/menu_phonix_clear_recents"
         android:icon="@drawable/delete"
         android:title="@string/action_clear_recents" />

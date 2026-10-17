@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RecentsHistoryFragment : RecentsFragment() {
     override val viewState: RecentsHistoryViewState by activityViewModels()
+    override val showFilterChips = false
 
     override fun onSetup() {
         super.onSetup()

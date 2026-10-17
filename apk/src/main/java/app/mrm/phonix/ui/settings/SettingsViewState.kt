@@ -37,12 +37,14 @@ class SettingsViewState @Inject constructor(
     private val _askForIncomingCallModeEvent = MutableLiveEvent()
     private val _askForDialpadTonesEvent = MutableDataLiveEvent<Boolean>()
     private val _askForGroupRecentsEvent = MutableDataLiveEvent<Boolean>()
+    private val _askForQuickCallEvent = MutableDataLiveEvent<Boolean>()
     private val _clearRecentsEvent = MutableLiveEvent()
     private val _askForDialpadVibrateEvent = MutableDataLiveEvent<Boolean>()
 
     val askForDefaultPageEvent = _askForDefaultPageEvent as LiveEvent
     val askForIncomingCallModeEvent = _askForIncomingCallModeEvent as LiveEvent
     val askForGroupRecentsEvent = _askForGroupRecentsEvent as DataLiveEvent<Boolean>
+    val askForQuickCallEvent = _askForQuickCallEvent as DataLiveEvent<Boolean>
     val clearRecentsEvent = _clearRecentsEvent as LiveEvent
     val askForDialpadTonesEvent = _askForDialpadTonesEvent as DataLiveEvent<Boolean>
     val askForDialpadVibrateEvent = _askForDialpadVibrateEvent as DataLiveEvent<Boolean>
@@ -54,6 +56,7 @@ class SettingsViewState @Inject constructor(
             R.id.menu_phonix_incoming_call_mode -> _askForIncomingCallModeEvent.call()
             R.id.menu_phonix_dialpad_tones -> _askForDialpadTonesEvent.call(preferences.isDialpadTones)
             R.id.menu_phonix_group_recents -> _askForGroupRecentsEvent.call(preferences.isGroupRecents)
+            R.id.menu_phonix_quick_call_recents -> _askForQuickCallEvent.call(preferences.isQuickCallInRecents)
             R.id.menu_phonix_clear_recents -> _clearRecentsEvent.call()
             R.id.menu_phonix_dialpad_vibrate -> _askForDialpadVibrateEvent.call(preferences.isDialpadVibrate)
             else -> super.onMenuItemClick(itemId)
@@ -76,6 +79,10 @@ class SettingsViewState @Inject constructor(
     fun onGroupRecents(response: Boolean) {
         preferences.isGroupRecents = response
         navigations.goToLauncherActivity()
+    }
+
+    fun onQuickCallInRecents(response: Boolean) {
+        preferences.isQuickCallInRecents = response
     }
 
     fun onClearRecents() {

@@ -37,6 +37,15 @@ class PreferencesInteractorImpl @Inject constructor(
             prefs.putBoolean(R.string.pref_key_group_recents, value)
         }
 
+    override var isQuickCallInRecents: Boolean
+        get() = prefs.getBoolean(
+            R.string.pref_key_quick_call_in_recents,
+            R.bool.pref_default_value_quick_call_in_recents
+        )
+        set(value) {
+            prefs.putBoolean(R.string.pref_key_quick_call_in_recents, value)
+        }
+
     override var isDialpadTones: Boolean
         get() = prefs.getBoolean(
             R.string.pref_key_dialpad_tones,

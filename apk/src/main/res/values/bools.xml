@@ -4,4 +4,5 @@
     <bool name="pref_default_value_dialpad_tones">true</bool>
     <bool name="pref_default_value_group_recents">false</bool>
     <bool name="pref_default_value_dialpad_vibrate">true</bool>
+    <bool name="pref_default_value_quick_call_in_recents">true</bool>
 </resources>

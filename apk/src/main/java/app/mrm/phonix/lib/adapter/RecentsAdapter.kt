@@ -1,5 +1,6 @@
 package app.mrm.phonix.lib.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract.CommonDataKinds.Phone
@@ -11,6 +12,7 @@ import app.mrm.phonix.lib.di.module.IoScope
 import app.mrm.phonix.lib.di.module.MainScope
 import app.mrm.phonix.lib.interactor.animation.AnimationsInteractor
 import app.mrm.phonix.lib.interactor.drawable.DrawablesInteractor
+import app.mrm.phonix.lib.interactor.preferences.PreferencesInteractor
 import app.mrm.phonix.lib.interactor.phoneaccounts.PhonesInteractor
 import app.mrm.phonix.lib.interactor.recents.RecentsInteractor
 import app.mrm.phonix.lib.interactor.sim.CallSimResolver
@@ -28,6 +30,7 @@ class RecentsAdapter @Inject constructor(
     private val recents: RecentsInteractor,
     private val drawables: DrawablesInteractor,
     private val simResolver: CallSimResolver,
+    preferences: PreferencesInteractor,
     @IoScope private val ioScope: CoroutineScope,
     @MainScope private val mainScope: CoroutineScope,
     @ApplicationContext private val context: Context
@@ -39,6 +42,16 @@ class RecentsAdapter @Inject constructor(
         get() = _groupSimilar
         set(value) {
             _groupSimilar = value
+        }
+
+
+    /** Whether every row shows the quick call button on its far right. */
+    @SuppressLint("NotifyDataSetChanged")
+    var isQuickCall: Boolean = preferences.isQuickCallInRecents
+        set(value) {
+            if (field == value) return
+            field = value
+            notifyDataSetChanged()
         }
 
 
@@ -60,6 +73,15 @@ class RecentsAdapter @Inject constructor(
                 ?: PhoneLookupAccount.PRIVATE.displayString
 
             val cachedName = item.cachedName?.takeIf { it.isNotBlank() }
+
+            // Quick call: a phone icon on the far right that calls this log's own number.
+            // Rows are recycled, so the visibility is always set. Private numbers can't be called.
+            isRightButtonVisible = isQuickCall && item.number.isNotBlank()
+            if (isRightButtonVisible) {
+                isRightButtonEnabled = true
+                setRightButtonIcon(R.drawable.call)
+                setRightButtonContentDescription(context.getString(R.string.content_description_quick_call))
+            }
 
             captionText = baseCaption
             titleText = fallbackTitle + countSuffix

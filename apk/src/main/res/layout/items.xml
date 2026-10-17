@@ -4,6 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- filter chips (recents only, hidden elsewhere) -->
+    <HorizontalScrollView
+        android:id="@+id/items_filter_scroll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/items_filter_chips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/default_spacing"
+            android:paddingEnd="@dimen/default_spacing"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true" />
+    </HorizontalScrollView>
+
     <com.l4digital.fastscroll.FastScrollView
         android:id="@+id/items_scroll_view"
         style="@style/Chooloo.FastScrollView"
@@ -12,7 +36,7 @@
         android:background="@drawable/round_outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/items_filter_scroll" />
 
     <include
         android:id="@+id/empty"

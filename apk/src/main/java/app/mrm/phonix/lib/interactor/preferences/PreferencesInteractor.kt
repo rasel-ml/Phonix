@@ -9,6 +9,7 @@ interface PreferencesInteractor : BaseInteractor<PreferencesInteractor.Listener>
 
     var isAnimations: Boolean
     var isGroupRecents: Boolean
+    var isQuickCallInRecents: Boolean
     var isDialpadTones: Boolean
     var isDialpadVibrate: Boolean
 

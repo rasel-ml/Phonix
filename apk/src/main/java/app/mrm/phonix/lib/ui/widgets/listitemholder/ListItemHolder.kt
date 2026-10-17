@@ -210,6 +210,10 @@ open class ListItemHolder(protected val binding: ListItemBinding) :
             ColorStateList.valueOf(context.getColor(tintRes))
     }
 
+    fun setRightButtonContentDescription(description: CharSequence?) {
+        binding.listItemRightButton.contentDescription = description
+    }
+
     fun setRightButtonIcon(iconRes: Int) {
         binding.listItemRightButton.setImageResource(iconRes)
     }
